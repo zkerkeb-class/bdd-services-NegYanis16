@@ -6,7 +6,11 @@ const resultsRoutes = require('./routes/resultsRoutes');
 
 const app = express();
 const cors = require('cors');
-app.use(cors());
+app.use(cors(
+  "https://autenthication-service-staging.onrender.com",
+  "https://service-ia-staging-avcv.onrender.com",
+  "https://payment-services-staging.onrender.com",
+));
 app.use(express.json());
 
 
