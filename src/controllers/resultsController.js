@@ -1,5 +1,5 @@
-const Results = require('../models/Results');
 const mongoose = require('mongoose');
+const Results = require('../models/Results');
 
 // Créer un résultat
 exports.createResult = async (req, res, next) => {
@@ -19,7 +19,7 @@ exports.getMoyenneParMatiere = async (req, res, next) => {
     const objectId = typeof userId === 'string' ? new mongoose.Types.ObjectId(userId) : userId;
     const moyennes = await Results.aggregate([
       { $match: { user_id: objectId } },
-      { $group: { _id: "$matiere", moyenne: { $avg: "$note" } } }
+      { $group: { _id: '$matiere', moyenne: { $avg: '$note' } } },
     ]);
     res.json(moyennes);
   } catch (error) {
@@ -36,4 +36,4 @@ exports.getResultsByUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}; 
+};

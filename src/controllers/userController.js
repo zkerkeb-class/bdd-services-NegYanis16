@@ -4,26 +4,37 @@ const User = require('../models/User');
 exports.getUserByEmail = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.params.email }).select('-password');
-    res.json(user);
+    return res.json(user);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
 // Créer un utilisateur (local ou Google)
 exports.createUser = async (req, res, next) => {
   try {
-    const { nom, prenom, email, password, niveau, classe, authProvider, googleId, avatar } = req.body;
+    const { nom, prenom, email, password, niveau, classe, authProvider, googleId, avatar } =
+      req.body;
     // Vérifier si l'utilisateur existe déjà
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ error: 'Cet utilisateur existe déjà.' });
     }
-    const user = new User({ nom, prenom, email, password, niveau, classe, authProvider, googleId, avatar });
+    const user = new User({
+      nom,
+      prenom,
+      email,
+      password,
+      niveau,
+      classe,
+      authProvider,
+      googleId,
+      avatar,
+    });
     await user.save();
-    res.status(201).json(user);
+    return res.status(201).json(user);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -32,9 +43,9 @@ exports.getUserById = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
     if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé.' });
-    res.json(user);
+    return res.json(user);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -43,11 +54,14 @@ exports.updateUser = async (req, res, next) => {
   try {
     const updates = req.body;
     // Si mot de passe fourni, il sera hashé par le modèle
-    const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true }).select('-password');
+    const user = await User.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+      runValidators: true,
+    }).select('-password');
     if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé.' });
-    res.json(user);
+    return res.json(user);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -56,9 +70,9 @@ exports.deleteUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé.' });
-    res.json({ message: 'Utilisateur supprimé avec succès.' });
+    return res.json({ message: 'Utilisateur supprimé avec succès.' });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -68,13 +82,15 @@ exports.updateTokens = async (req, res, next) => {
     const { jetons, operation } = req.body;
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé.' });
-    if (typeof jetons !== 'number') return res.status(400).json({ error: 'Le nombre de jetons doit être un nombre.' });
+    if (typeof jetons !== 'number')
+      return res.status(400).json({ error: 'Le nombre de jetons doit être un nombre.' });
     switch (operation) {
       case 'add':
         user.jetons = (user.jetons || 0) + jetons;
         break;
       case 'subtract':
-        if ((user.jetons || 0) < jetons) return res.status(400).json({ error: 'Jetons insuffisants.' });
+        if ((user.jetons || 0) < jetons)
+          return res.status(400).json({ error: 'Jetons insuffisants.' });
         user.jetons -= jetons;
         break;
       case 'set':
@@ -84,9 +100,9 @@ exports.updateTokens = async (req, res, next) => {
         return res.status(400).json({ error: 'Opération invalide.' });
     }
     await user.save();
-    res.json({ jetons: user.jetons });
+    return res.json({ jetons: user.jetons });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -97,8 +113,8 @@ exports.verifyPassword = async (req, res, next) => {
     const user = await User.findById(req.params.id).select('+password');
     if (!user) return res.status(404).json({ valid: false, error: 'Utilisateur non trouvé.' });
     const isMatch = await user.comparePassword(password);
-    res.json({ valid: isMatch });
+    return res.json({ valid: isMatch });
   } catch (error) {
-    next(error);
+    return next(error);
   }
-}; 
+};

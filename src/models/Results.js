@@ -25,10 +25,10 @@ const resultSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const Results = mongoose.model('Results', resultSchema);
 
-module.exports = Results; 
+module.exports = Results;

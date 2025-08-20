@@ -4,7 +4,7 @@ const {
   getQuizById,
   getQuizzesByUser,
   getQuizzesBySubject,
-  deleteQuiz
+  deleteQuiz,
 } = require('../controllers/quizController');
 
 const router = express.Router();
@@ -24,4 +24,4 @@ router.get('/user/:userId/subject/:subject', getQuizzesBySubject);
 // Supprimer un quiz
 router.delete('/:id', deleteQuiz);
 
-module.exports = router; 
+module.exports = router;

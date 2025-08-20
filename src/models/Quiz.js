@@ -3,50 +3,50 @@ const mongoose = require('mongoose');
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
     enum: ['qcm', 'ouverte'],
-    required: true
+    required: true,
   },
   options: {
     type: [String],
-    default: []
+    default: [],
   },
   correctAnswer: {
     type: String,
-    default: ''
+    default: '',
   },
   weight: {
     type: Number,
     required: true,
     min: 1,
-    max: 2
-  }
+    max: 2,
+  },
 });
 
 const quizSchema = new mongoose.Schema({
   level: {
     type: String,
-    required: true
+    required: true,
   },
   subject: {
     type: String,
-    required: true
+    required: true,
   },
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   },
   questions: [questionSchema],
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const Quiz = mongoose.model('Quiz', quizSchema);
 
-module.exports = Quiz; 
+module.exports = Quiz;

@@ -5,9 +5,9 @@ exports.createQuiz = async (req, res, next) => {
   try {
     const quiz = new Quiz(req.body);
     const savedQuiz = await quiz.save();
-    res.status(201).json(savedQuiz);
+    return res.status(201).json(savedQuiz);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -16,9 +16,9 @@ exports.getQuizById = async (req, res, next) => {
   try {
     const quiz = await Quiz.findById(req.params.id);
     if (!quiz) return res.status(404).json({ error: 'Quiz non trouvé.' });
-    res.json(quiz);
+    return res.json(quiz);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -26,19 +26,22 @@ exports.getQuizById = async (req, res, next) => {
 exports.getQuizzesByUser = async (req, res, next) => {
   try {
     const quizzes = await Quiz.find({ user_id: req.params.userId }).sort({ createdAt: -1 });
-    res.json(quizzes);
+    return res.json(quizzes);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
 // Récupérer tous les quiz d'une matière pour un utilisateur
 exports.getQuizzesBySubject = async (req, res, next) => {
   try {
-    const quizzes = await Quiz.find({ user_id: req.params.userId, subject: req.params.subject }).sort({ createdAt: -1 });
-    res.json(quizzes);
+    const quizzes = await Quiz.find({
+      user_id: req.params.userId,
+      subject: req.params.subject,
+    }).sort({ createdAt: -1 });
+    return res.json(quizzes);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -47,8 +50,8 @@ exports.deleteQuiz = async (req, res, next) => {
   try {
     const quiz = await Quiz.findByIdAndDelete(req.params.id);
     if (!quiz) return res.status(404).json({ error: 'Quiz non trouvé.' });
-    res.json({ message: 'Quiz supprimé avec succès.' });
+    return res.json({ message: 'Quiz supprimé avec succès.' });
   } catch (error) {
-    next(error);
+    return next(error);
   }
-}; 
+};

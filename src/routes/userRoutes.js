@@ -6,7 +6,7 @@ const {
   updateUser,
   deleteUser,
   updateTokens,
-  verifyPassword
+  verifyPassword,
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -32,4 +32,4 @@ router.patch('/:id/tokens', updateTokens);
 // Vérifier le mot de passe d'un utilisateur
 router.post('/:id/verify-password', verifyPassword);
 
-module.exports = router; 
+module.exports = router;

@@ -2,7 +2,7 @@ const express = require('express');
 const {
   createResult,
   getMoyenneParMatiere,
-  getResultsByUser
+  getResultsByUser,
 } = require('../controllers/resultsController');
 
 const router = express.Router();
@@ -16,4 +16,4 @@ router.get('/moyenne/:userId', getMoyenneParMatiere);
 // Récupérer tous les résultats d'un utilisateur
 router.get('/user/:userId', getResultsByUser);
 
-module.exports = router; 
+module.exports = router;
