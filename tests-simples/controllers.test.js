@@ -2,7 +2,6 @@
 // Mock des modèles pour éviter la base de données
 
 describe('Contrôleurs - Tests Simples', () => {
-  
   describe('User Controller', () => {
     test('devrait avoir des méthodes de contrôleur', () => {
       // Test simple pour vérifier que le contrôleur existe
@@ -43,4 +42,4 @@ describe('Contrôleurs - Tests Simples', () => {
       expect(typeof expect).toBe('function');
     });
   });
-}); 
+});

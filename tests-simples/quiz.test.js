@@ -3,14 +3,13 @@ const mongoose = require('mongoose');
 // Mock de la connexion MongoDB
 mongoose.connect = jest.fn();
 mongoose.connection = {
-  close: jest.fn()
+  close: jest.fn(),
 };
 
 // Import du modèle Quiz
 const Quiz = require('../src/models/Quiz');
 
 describe('Modèle Quiz - Tests Simples', () => {
-  
   describe('Validation des données', () => {
     test('devrait valider un quiz avec des données correctes', () => {
       const quizData = {
@@ -22,13 +21,13 @@ describe('Modèle Quiz - Tests Simples', () => {
             type: 'QCM',
             options: ['x', '2x', 'x²', '2x²'],
             correctAnswer: '2x',
-            weight: 1
-          }
-        ]
+            weight: 1,
+          },
+        ],
       };
 
       const quiz = new Quiz(quizData);
-      
+
       expect(quiz.level).toBe('Terminale');
       expect(quiz.subject).toBe('Mathématiques');
       expect(quiz.questions).toHaveLength(1);
@@ -45,9 +44,9 @@ describe('Modèle Quiz - Tests Simples', () => {
             type: 'QCM',
             options: ['A', 'B', 'C', 'D'],
             correctAnswer: 'B',
-            weight: 2
-          }
-        ]
+            weight: 2,
+          },
+        ],
       };
 
       const quiz = new Quiz(quizData);
@@ -64,9 +63,9 @@ describe('Modèle Quiz - Tests Simples', () => {
             question: 'Question ouverte',
             type: 'open',
             correctAnswer: 'Réponse libre',
-            weight: 1
-          }
-        ]
+            weight: 1,
+          },
+        ],
       };
 
       const quiz = new Quiz(quizData);
@@ -82,11 +81,11 @@ describe('Modèle Quiz - Tests Simples', () => {
   describe('Structure du schéma', () => {
     test('devrait avoir les bonnes propriétés dans le schéma', () => {
       const quizSchema = Quiz.schema;
-      
+
       expect(quizSchema.paths.level).toBeDefined();
       expect(quizSchema.paths.subject).toBeDefined();
       expect(quizSchema.paths.questions).toBeDefined();
       expect(quizSchema.paths.user_id).toBeDefined();
     });
   });
-}); 
+});

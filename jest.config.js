@@ -3,5 +3,5 @@ module.exports = {
   testMatch: ['**/tests-simples/**/*.test.js'],
   collectCoverage: false,
   verbose: true,
-  testTimeout: 10000
+  testTimeout: 10000,
 };

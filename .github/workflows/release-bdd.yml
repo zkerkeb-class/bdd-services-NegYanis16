@@ -8,7 +8,7 @@ on:
 jobs:
   release-bdd:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -51,10 +51,10 @@ jobs:
           prerelease: false
           body: |
             ## 🗄️ Service Base de Données v${{ steps.get_version.outputs.VERSION }}
-            
+
             ### Changements
             Voir le [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/bdd-services-NegYanis16/CHANGELOG.md) pour les détails complets.
-            
+
             ### 🚀 Fonctionnalités
             - API RESTful complète pour la gestion des données
             - Gestion des utilisateurs, quiz et résultats
@@ -62,7 +62,7 @@ jobs:
             - Validation des données avec Joi
             - Tests unitaires et d'intégration
             - Qualité du code avec ESLint + Prettier
-            
+
             ### 🔧 Installation
             ```bash
             git clone https://github.com/${{ github.repository }}.git
@@ -71,17 +71,17 @@ jobs:
             npm install
             npm start
             ```
-            
+
             ### 📋 Configuration requise
             - Node.js 18+
             - MongoDB
             - Variables d'environnement configurées
-            
+
             ### 🌐 Endpoints disponibles
             - **Users**: `GET|POST|PUT|DELETE /api/users`
             - **Quiz**: `GET|POST|PUT|DELETE /api/quiz`
             - **Results**: `GET|POST /api/results`
-            
+
             ### 🛡️ Sécurité
             - Validation Joi sur tous les endpoints
             - Rate limiting configuré

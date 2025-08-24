@@ -3,14 +3,13 @@ const mongoose = require('mongoose');
 // Mock de la connexion MongoDB
 mongoose.connect = jest.fn();
 mongoose.connection = {
-  close: jest.fn()
+  close: jest.fn(),
 };
 
 // Import du modèle User
 const User = require('../src/models/User');
 
 describe('Modèle User - Tests Simples', () => {
-  
   describe('Validation des données', () => {
     test('devrait valider un utilisateur avec des données correctes', () => {
       const userData = {
@@ -19,11 +18,11 @@ describe('Modèle User - Tests Simples', () => {
         email: 'jean.dupont@test.com',
         password: 'motdepasse123',
         niveau: 'Terminale',
-        classe: 'S'
+        classe: 'S',
       };
 
       const user = new User(userData);
-      
+
       expect(user.nom).toBe('Dupont');
       expect(user.prenom).toBe('Jean');
       expect(user.email).toBe('jean.dupont@test.com');
@@ -38,11 +37,11 @@ describe('Modèle User - Tests Simples', () => {
         email: 'test@example.com',
         password: '123',
         niveau: 'Terminale',
-        classe: 'S'
+        classe: 'S',
       };
 
       const user = new User(userData);
-      
+
       const validationError = user.validateSync();
       expect(validationError).toBeDefined();
       expect(validationError.errors.password).toBeDefined();
@@ -55,11 +54,11 @@ describe('Modèle User - Tests Simples', () => {
         email: 'test@example.com',
         password: 'password123',
         niveau: 'NiveauInvalide',
-        classe: 'S'
+        classe: 'S',
       };
 
       const user = new User(userData);
-      
+
       const validationError = user.validateSync();
       expect(validationError).toBeDefined();
       expect(validationError.errors.niveau).toBeDefined();
@@ -74,7 +73,7 @@ describe('Modèle User - Tests Simples', () => {
         email: 'test@example.com',
         password: 'password123',
         niveau: 'Terminale',
-        classe: 'S'
+        classe: 'S',
       });
 
       // Vérifier que les champs requis sont présents
@@ -90,7 +89,7 @@ describe('Modèle User - Tests Simples', () => {
         nom: 'Test',
         prenom: 'User',
         email: 'test@example.com',
-        password: 'password123'
+        password: 'password123',
         // Pas de niveau ni de classe
       });
 
@@ -103,7 +102,7 @@ describe('Modèle User - Tests Simples', () => {
   describe('Structure du schéma', () => {
     test('devrait avoir les bonnes propriétés dans le schéma', () => {
       const userSchema = User.schema;
-      
+
       expect(userSchema.paths.nom).toBeDefined();
       expect(userSchema.paths.prenom).toBeDefined();
       expect(userSchema.paths.email).toBeDefined();
@@ -112,4 +111,4 @@ describe('Modèle User - Tests Simples', () => {
       expect(userSchema.paths.classe).toBeDefined();
     });
   });
-}); 
+});

@@ -3,14 +3,13 @@ const mongoose = require('mongoose');
 // Mock de la connexion MongoDB
 mongoose.connect = jest.fn();
 mongoose.connection = {
-  close: jest.fn()
+  close: jest.fn(),
 };
 
 // Import du modèle Results
 const Results = require('../src/models/Results');
 
 describe('Modèle Results - Tests Simples', () => {
-  
   describe('Validation des données', () => {
     test('devrait valider un résultat avec des données correctes', () => {
       const resultData = {
@@ -18,11 +17,11 @@ describe('Modèle Results - Tests Simples', () => {
         note: 15,
         coefficient: 2,
         user_id: new mongoose.Types.ObjectId(),
-        quiz_id: new mongoose.Types.ObjectId()
+        quiz_id: new mongoose.Types.ObjectId(),
       };
 
       const result = new Results(resultData);
-      
+
       expect(result.matiere).toBe('Mathématiques');
       expect(result.note).toBe(15);
       expect(result.coefficient).toBe(2);
@@ -33,11 +32,11 @@ describe('Modèle Results - Tests Simples', () => {
         note: 15,
         coefficient: 2,
         user_id: new mongoose.Types.ObjectId(),
-        quiz_id: new mongoose.Types.ObjectId()
+        quiz_id: new mongoose.Types.ObjectId(),
       };
 
       const result = new Results(resultData);
-      
+
       const validationError = result.validateSync();
       expect(validationError).toBeDefined();
       expect(validationError.errors.matiere).toBeDefined();
@@ -48,11 +47,11 @@ describe('Modèle Results - Tests Simples', () => {
         matiere: 'Mathématiques',
         coefficient: 2,
         user_id: new mongoose.Types.ObjectId(),
-        quiz_id: new mongoose.Types.ObjectId()
+        quiz_id: new mongoose.Types.ObjectId(),
       };
 
       const result = new Results(resultData);
-      
+
       const validationError = result.validateSync();
       expect(validationError).toBeDefined();
       expect(validationError.errors.note).toBeDefined();
@@ -66,7 +65,7 @@ describe('Modèle Results - Tests Simples', () => {
         note: 15,
         coefficient: 2,
         user_id: new mongoose.Types.ObjectId(),
-        quiz_id: new mongoose.Types.ObjectId()
+        quiz_id: new mongoose.Types.ObjectId(),
       });
 
       const scorePondere = result.note * result.coefficient;
@@ -79,7 +78,7 @@ describe('Modèle Results - Tests Simples', () => {
         note: 18,
         coefficient: 1,
         user_id: new mongoose.Types.ObjectId(),
-        quiz_id: new mongoose.Types.ObjectId()
+        quiz_id: new mongoose.Types.ObjectId(),
       });
 
       expect(result.note).toBeGreaterThanOrEqual(0);
@@ -90,7 +89,7 @@ describe('Modèle Results - Tests Simples', () => {
   describe('Structure du schéma', () => {
     test('devrait avoir les bonnes propriétés dans le schéma', () => {
       const resultsSchema = Results.schema;
-      
+
       expect(resultsSchema.paths.matiere).toBeDefined();
       expect(resultsSchema.paths.note).toBeDefined();
       expect(resultsSchema.paths.coefficient).toBeDefined();
@@ -98,4 +97,4 @@ describe('Modèle Results - Tests Simples', () => {
       expect(resultsSchema.paths.quiz_id).toBeDefined();
     });
   });
-}); 
+});

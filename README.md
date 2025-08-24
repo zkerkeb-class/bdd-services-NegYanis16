@@ -15,11 +15,13 @@ Microservice dédié aux opérations en base de données MongoDB pour la platefo
 ## 🚀 Installation et Démarrage
 
 ### Prérequis
+
 - Node.js 16+
 - MongoDB 5+
 - npm ou yarn
 
 ### Installation
+
 ```bash
 # Cloner le repository
 git clone [url-du-repo]
@@ -34,6 +36,7 @@ cp .env.example .env
 ```
 
 ### Variables d'environnement
+
 ```env
 # Base de données
 MONGODB_URI=mongodb://localhost:27017/education_platform
@@ -49,6 +52,7 @@ NODE_ENV=development
 ```
 
 ### Démarrage
+
 ```bash
 # Mode développement
 npm run dev
@@ -63,16 +67,19 @@ npm test
 ## 📊 Modèles de Données
 
 ### User (Utilisateur)
+
 - **Informations personnelles** : nom, prénom, email, mot de passe
 - **Profil éducatif** : niveau, classe, matières préférées
 - **Sécurité** : mot de passe hashé, tokens de session
 
 ### Quiz
+
 - **Métadonnées** : niveau, matière, titre, description
 - **Questions** : texte, type (QCM/ouverte), options, réponse correcte
 - **Configuration** : poids des questions, temps limite
 
 ### Results (Résultats)
+
 - **Données de quiz** : utilisateur, quiz, réponses données
 - **Calculs** : score, pourcentage, temps passé
 - **Historique** : date de passage, tentatives
@@ -80,6 +87,7 @@ npm test
 ## 🔌 API Endpoints
 
 ### Users
+
 - `GET /api/users` - Liste des utilisateurs
 - `GET /api/users/:id` - Détails d'un utilisateur
 - `POST /api/users` - Créer un utilisateur
@@ -87,6 +95,7 @@ npm test
 - `DELETE /api/users/:id` - Supprimer un utilisateur
 
 ### Quiz
+
 - `GET /api/quiz` - Liste des quiz
 - `GET /api/quiz/:id` - Détails d'un quiz
 - `POST /api/quiz` - Créer un quiz
@@ -94,6 +103,7 @@ npm test
 - `DELETE /api/quiz/:id` - Supprimer un quiz
 
 ### Results
+
 - `GET /api/results` - Liste des résultats
 - `GET /api/results/:id` - Détails d'un résultat
 - `POST /api/results` - Créer un résultat
@@ -102,6 +112,7 @@ npm test
 ## 🧪 Tests
 
 ### Structure des tests
+
 ```
 tests-simples/
 ├── user.test.js           # Tests du modèle User
@@ -113,6 +124,7 @@ tests-simples/
 ```
 
 ### Exécution des tests
+
 ```bash
 # Tous les tests
 npm test
@@ -127,6 +139,7 @@ npx jest --coverage
 ## 🔒 Sécurité
 
 ### Mesures OWASP implémentées
+
 - ✅ **Injection** : Validation Joi + Mongoose
 - ✅ **Authentification** : JWT + Sessions sécurisées
 - ✅ **Exposition de données** : Champs sensibles masqués
@@ -136,6 +149,7 @@ npx jest --coverage
 - ✅ **Logging** : Winston pour la traçabilité
 
 ### Middlewares de sécurité
+
 - Helmet (en-têtes de sécurité)
 - CORS configuré
 - Rate limiting
@@ -145,12 +159,14 @@ npx jest --coverage
 ## 📈 Performance et Monitoring
 
 ### Métriques
+
 - Temps de réponse des requêtes
 - Taux d'erreur
 - Utilisation de la base de données
 - Performance des requêtes
 
 ### Optimisations
+
 - Index MongoDB optimisés
 - Pagination des résultats
 - Cache des requêtes fréquentes
@@ -159,13 +175,16 @@ npx jest --coverage
 ## 🚨 Dépannage
 
 ### Problèmes courants
+
 1. **Connexion MongoDB** : Vérifier l'URI et les permissions
 2. **Variables d'environnement** : S'assurer que .env est configuré
 3. **Port déjà utilisé** : Changer le PORT dans .env
 4. **Tests qui échouent** : Nettoyer le cache Jest
 
 ### Logs
+
 Les logs sont disponibles dans :
+
 - Console (développement)
 - Fichiers (production)
 - Winston (structurés)
@@ -173,11 +192,13 @@ Les logs sont disponibles dans :
 ## 🔄 Déploiement
 
 ### Environnements
+
 - **Development** : `npm run dev`
 - **Production** : `npm start`
 - **Test** : `npm test`
 
 ### Docker (optionnel)
+
 ```dockerfile
 FROM node:16-alpine
 WORKDIR /app
@@ -198,6 +219,7 @@ CMD ["npm", "start"]
 ## 📝 Changelog
 
 ### Version 1.0.0
+
 - ✅ Modèles de données complets
 - ✅ API REST complète
 - ✅ Tests unitaires
@@ -206,4 +228,4 @@ CMD ["npm", "start"]
 
 ---
 
-**Développé par NegYanis16** 
+**Développé par NegYanis16**

@@ -2,7 +2,6 @@
 // Test de la structure des routes sans base de données
 
 describe('Routes - Tests Simples', () => {
-  
   describe('User Routes', () => {
     test('devrait pouvoir importer les routes utilisateur', () => {
       // Test simple pour vérifier l'import
@@ -49,4 +48,4 @@ describe('Routes - Tests Simples', () => {
       expect(1 + 1).toBe(2);
     });
   });
-}); 
+});
