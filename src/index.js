@@ -10,6 +10,7 @@ app.use(cors(
   "https://autenthication-service-staging.onrender.com",
   "https://service-ia-staging-avcv.onrender.com",
   "https://payment-services-staging.onrender.com",
+  "https://front-neg-yanis16-bxt5-okgp8joy1-negyanis16s-projects.vercel.app",
 ));
 app.use(express.json());
 
