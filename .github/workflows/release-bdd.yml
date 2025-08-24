@@ -1,0 +1,99 @@
+name: Release BDD Service
+
+on:
+  push:
+    tags:
+      - 'bdd-service-v*.*.*'
+
+jobs:
+  release-bdd:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'bdd-services-NegYanis16/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: ./bdd-services-NegYanis16
+        run: npm ci
+
+      - name: Run code quality checks
+        working-directory: ./bdd-services-NegYanis16
+        run: npm run code:check
+
+      - name: Run tests
+        working-directory: ./bdd-services-NegYanis16
+        run: npm test
+
+      - name: Build project
+        working-directory: ./bdd-services-NegYanis16
+        run: npm run build
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/bdd-service-v}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: BDD Service v${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          body: |
+            ## 🗄️ Service Base de Données v${{ steps.get_version.outputs.VERSION }}
+            
+            ### Changements
+            Voir le [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/bdd-services-NegYanis16/CHANGELOG.md) pour les détails complets.
+            
+            ### 🚀 Fonctionnalités
+            - API RESTful complète pour la gestion des données
+            - Gestion des utilisateurs, quiz et résultats
+            - Base de données MongoDB avec Mongoose
+            - Validation des données avec Joi
+            - Tests unitaires et d'intégration
+            - Qualité du code avec ESLint + Prettier
+            
+            ### 🔧 Installation
+            ```bash
+            git clone https://github.com/${{ github.repository }}.git
+            cd bdd-services-NegYanis16
+            git checkout bdd-service-v${{ steps.get_version.outputs.VERSION }}
+            npm install
+            npm start
+            ```
+            
+            ### 📋 Configuration requise
+            - Node.js 18+
+            - MongoDB
+            - Variables d'environnement configurées
+            
+            ### 🌐 Endpoints disponibles
+            - **Users**: `GET|POST|PUT|DELETE /api/users`
+            - **Quiz**: `GET|POST|PUT|DELETE /api/quiz`
+            - **Results**: `GET|POST /api/results`
+            
+            ### 🛡️ Sécurité
+            - Validation Joi sur tous les endpoints
+            - Rate limiting configuré
+            - Headers de sécurité avec Helmet
+            - Protection CORS
+
+      - name: Build Docker image (optionnel)
+        working-directory: ./bdd-services-NegYanis16
+        run: |
+          if [ -f "Dockerfile" ]; then
+            docker build -t bdd-service:v${{ steps.get_version.outputs.VERSION }} .
+            echo "Docker image built: bdd-service:v${{ steps.get_version.outputs.VERSION }}"
+          else
+            echo "No Dockerfile found, skipping Docker build"
+          fi
