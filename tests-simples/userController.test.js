@@ -14,14 +14,14 @@ describe('UserController - Tests Complets', () => {
     req = {
       body: {},
       params: {},
-      user: {}
+      user: {},
     };
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
     };
     next = jest.fn();
-    
+
     // Reset des mocks
     jest.clearAllMocks();
   });
@@ -30,9 +30,9 @@ describe('UserController - Tests Complets', () => {
     test('devrait retourner un utilisateur par email', async () => {
       const mockUser = { _id: '123', email: 'test@test.com', nom: 'Test' };
       req.params.email = 'test@test.com';
-      
+
       User.findOne = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(mockUser)
+        select: jest.fn().mockResolvedValue(mockUser),
       });
 
       await userController.getUserByEmail(req, res, next);
@@ -44,9 +44,9 @@ describe('UserController - Tests Complets', () => {
     test('devrait gérer les erreurs', async () => {
       const error = new Error('Erreur base de données');
       req.params.email = 'test@test.com';
-      
+
       User.findOne = jest.fn().mockReturnValue({
-        select: jest.fn().mockRejectedValue(error)
+        select: jest.fn().mockRejectedValue(error),
       });
 
       await userController.getUserByEmail(req, res, next);
@@ -63,14 +63,14 @@ describe('UserController - Tests Complets', () => {
         email: 'test@test.com',
         password: 'password123',
         niveau: 'lycée',
-        classe: '1ère'
+        classe: '1ère',
       };
       req.body = userData;
 
       User.findOne = jest.fn().mockResolvedValue(null);
       User.prototype.save = jest.fn().mockResolvedValue(userData);
       User.mockImplementation(() => ({
-        save: User.prototype.save
+        save: User.prototype.save,
       }));
 
       await userController.createUser(req, res, next);
@@ -99,7 +99,7 @@ describe('UserController - Tests Complets', () => {
       User.findOne = jest.fn().mockResolvedValue(null);
       User.prototype.save = jest.fn().mockRejectedValue(error);
       User.mockImplementation(() => ({
-        save: User.prototype.save
+        save: User.prototype.save,
       }));
 
       await userController.createUser(req, res, next);
@@ -114,7 +114,7 @@ describe('UserController - Tests Complets', () => {
       req.params.id = '123';
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(mockUser)
+        select: jest.fn().mockResolvedValue(mockUser),
       });
 
       await userController.getUserById(req, res, next);
@@ -127,7 +127,7 @@ describe('UserController - Tests Complets', () => {
       req.params.id = '123';
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(null)
+        select: jest.fn().mockResolvedValue(null),
       });
 
       await userController.getUserById(req, res, next);
@@ -141,7 +141,7 @@ describe('UserController - Tests Complets', () => {
       req.params.id = '123';
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockRejectedValue(error)
+        select: jest.fn().mockRejectedValue(error),
       });
 
       await userController.getUserById(req, res, next);
@@ -157,15 +157,19 @@ describe('UserController - Tests Complets', () => {
       req.body = { nom: 'Updated' };
 
       User.findByIdAndUpdate = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(updatedUser)
+        select: jest.fn().mockResolvedValue(updatedUser),
       });
 
       await userController.updateUser(req, res, next);
 
-      expect(User.findByIdAndUpdate).toHaveBeenCalledWith('123', { nom: 'Updated' }, {
-        new: true,
-        runValidators: true
-      });
+      expect(User.findByIdAndUpdate).toHaveBeenCalledWith(
+        '123',
+        { nom: 'Updated' },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
       expect(res.json).toHaveBeenCalledWith(updatedUser);
     });
 
@@ -174,7 +178,7 @@ describe('UserController - Tests Complets', () => {
       req.body = { nom: 'Updated' };
 
       User.findByIdAndUpdate = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(null)
+        select: jest.fn().mockResolvedValue(null),
       });
 
       await userController.updateUser(req, res, next);
@@ -189,7 +193,7 @@ describe('UserController - Tests Complets', () => {
       req.body = { nom: 'Updated' };
 
       User.findByIdAndUpdate = jest.fn().mockReturnValue({
-        select: jest.fn().mockRejectedValue(error)
+        select: jest.fn().mockRejectedValue(error),
       });
 
       await userController.updateUser(req, res, next);
@@ -313,7 +317,7 @@ describe('UserController - Tests Complets', () => {
       expect(res.json).toHaveBeenCalledWith({ error: 'Utilisateur non trouvé.' });
     });
 
-    test('devrait retourner erreur si jetons n\'est pas un nombre', async () => {
+    test("devrait retourner erreur si jetons n'est pas un nombre", async () => {
       const mockUser = { _id: '123', jetons: 10 };
       req.params.id = '123';
       req.body = { jetons: 'invalid', operation: 'add' };
@@ -343,13 +347,13 @@ describe('UserController - Tests Complets', () => {
     test('devrait vérifier un mot de passe correct', async () => {
       const mockUser = {
         _id: '123',
-        comparePassword: jest.fn().mockResolvedValue(true)
+        comparePassword: jest.fn().mockResolvedValue(true),
       };
       req.params.id = '123';
       req.body = { password: 'correctPassword' };
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(mockUser)
+        select: jest.fn().mockResolvedValue(mockUser),
       });
 
       await userController.verifyPassword(req, res, next);
@@ -361,13 +365,13 @@ describe('UserController - Tests Complets', () => {
     test('devrait vérifier un mot de passe incorrect', async () => {
       const mockUser = {
         _id: '123',
-        comparePassword: jest.fn().mockResolvedValue(false)
+        comparePassword: jest.fn().mockResolvedValue(false),
       };
       req.params.id = '123';
       req.body = { password: 'wrongPassword' };
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(mockUser)
+        select: jest.fn().mockResolvedValue(mockUser),
       });
 
       await userController.verifyPassword(req, res, next);
@@ -380,7 +384,7 @@ describe('UserController - Tests Complets', () => {
       req.body = { password: 'password' };
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue(null)
+        select: jest.fn().mockResolvedValue(null),
       });
 
       await userController.verifyPassword(req, res, next);
@@ -395,7 +399,7 @@ describe('UserController - Tests Complets', () => {
       req.body = { password: 'password' };
 
       User.findById = jest.fn().mockReturnValue({
-        select: jest.fn().mockRejectedValue(error)
+        select: jest.fn().mockRejectedValue(error),
       });
 
       await userController.verifyPassword(req, res, next);

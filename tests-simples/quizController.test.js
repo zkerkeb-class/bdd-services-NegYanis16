@@ -12,14 +12,14 @@ describe('QuizController - Tests Complets', () => {
     req = {
       body: {},
       params: {},
-      user: {}
+      user: {},
     };
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
     };
     next = jest.fn();
-    
+
     // Reset des mocks
     jest.clearAllMocks();
   });
@@ -32,7 +32,7 @@ describe('QuizController - Tests Complets', () => {
 
       Quiz.prototype.save = jest.fn().mockResolvedValue(savedQuiz);
       Quiz.mockImplementation(() => ({
-        save: Quiz.prototype.save
+        save: Quiz.prototype.save,
       }));
 
       await quizController.createQuiz(req, res, next);
@@ -47,7 +47,7 @@ describe('QuizController - Tests Complets', () => {
 
       Quiz.prototype.save = jest.fn().mockRejectedValue(error);
       Quiz.mockImplementation(() => ({
-        save: Quiz.prototype.save
+        save: Quiz.prototype.save,
       }));
 
       await quizController.createQuiz(req, res, next);
@@ -93,12 +93,15 @@ describe('QuizController - Tests Complets', () => {
   });
 
   describe('getQuizzesByUser', () => {
-    test('devrait retourner les quiz d\'un utilisateur', async () => {
-      const mockQuizzes = [{ _id: '1', title: 'Quiz 1' }, { _id: '2', title: 'Quiz 2' }];
+    test("devrait retourner les quiz d'un utilisateur", async () => {
+      const mockQuizzes = [
+        { _id: '1', title: 'Quiz 1' },
+        { _id: '2', title: 'Quiz 2' },
+      ];
       req.params.userId = 'user123';
 
       Quiz.find = jest.fn().mockReturnValue({
-        sort: jest.fn().mockResolvedValue(mockQuizzes)
+        sort: jest.fn().mockResolvedValue(mockQuizzes),
       });
 
       await quizController.getQuizzesByUser(req, res, next);
@@ -112,7 +115,7 @@ describe('QuizController - Tests Complets', () => {
       req.params.userId = 'user123';
 
       Quiz.find = jest.fn().mockReturnValue({
-        sort: jest.fn().mockRejectedValue(error)
+        sort: jest.fn().mockRejectedValue(error),
       });
 
       await quizController.getQuizzesByUser(req, res, next);
@@ -128,14 +131,14 @@ describe('QuizController - Tests Complets', () => {
       req.params.subject = 'math';
 
       Quiz.find = jest.fn().mockReturnValue({
-        sort: jest.fn().mockResolvedValue(mockQuizzes)
+        sort: jest.fn().mockResolvedValue(mockQuizzes),
       });
 
       await quizController.getQuizzesBySubject(req, res, next);
 
       expect(Quiz.find).toHaveBeenCalledWith({
         user_id: 'user123',
-        subject: 'math'
+        subject: 'math',
       });
       expect(res.json).toHaveBeenCalledWith(mockQuizzes);
     });
@@ -146,7 +149,7 @@ describe('QuizController - Tests Complets', () => {
       req.params.subject = 'math';
 
       Quiz.find = jest.fn().mockReturnValue({
-        sort: jest.fn().mockRejectedValue(error)
+        sort: jest.fn().mockRejectedValue(error),
       });
 
       await quizController.getQuizzesBySubject(req, res, next);

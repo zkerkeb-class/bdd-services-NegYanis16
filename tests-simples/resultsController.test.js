@@ -14,14 +14,14 @@ describe('ResultsController - Tests Complets', () => {
     req = {
       body: {},
       params: {},
-      user: {}
+      user: {},
     };
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
     };
     next = jest.fn();
-    
+
     // Reset des mocks
     jest.clearAllMocks();
   });
@@ -34,7 +34,7 @@ describe('ResultsController - Tests Complets', () => {
 
       Results.prototype.save = jest.fn().mockResolvedValue(savedResult);
       Results.mockImplementation(() => ({
-        save: Results.prototype.save
+        save: Results.prototype.save,
       }));
 
       await resultsController.createResult(req, res, next);
@@ -49,7 +49,7 @@ describe('ResultsController - Tests Complets', () => {
 
       Results.prototype.save = jest.fn().mockRejectedValue(error);
       Results.mockImplementation(() => ({
-        save: Results.prototype.save
+        save: Results.prototype.save,
       }));
 
       await resultsController.createResult(req, res, next);
@@ -62,12 +62,15 @@ describe('ResultsController - Tests Complets', () => {
     beforeEach(() => {
       // Mock mongoose.Types.ObjectId
       mongoose.Types = {
-        ObjectId: jest.fn().mockImplementation((id) => id)
+        ObjectId: jest.fn().mockImplementation(id => id),
       };
     });
 
     test('devrait calculer la moyenne par matière avec req.user.id', async () => {
-      const mockMoyennes = [{ _id: 'math', moyenne: 85 }, { _id: 'français', moyenne: 78 }];
+      const mockMoyennes = [
+        { _id: 'math', moyenne: 85 },
+        { _id: 'français', moyenne: 78 },
+      ];
       req.user = { id: 'user123' };
 
       Results.aggregate = jest.fn().mockResolvedValue(mockMoyennes);
@@ -136,15 +139,18 @@ describe('ResultsController - Tests Complets', () => {
 
       expect(Results.aggregate).toHaveBeenCalledWith([
         { $match: { user_id: objectId } },
-        { $group: { _id: '$matiere', moyenne: { $avg: '$note' } } }
+        { $group: { _id: '$matiere', moyenne: { $avg: '$note' } } },
       ]);
       expect(res.json).toHaveBeenCalledWith(mockMoyennes);
     });
   });
 
   describe('getResultsByUser', () => {
-    test('devrait retourner les résultats d\'un utilisateur avec req.user.userId', async () => {
-      const mockResults = [{ _id: '1', score: 85 }, { _id: '2', score: 92 }];
+    test("devrait retourner les résultats d'un utilisateur avec req.user.userId", async () => {
+      const mockResults = [
+        { _id: '1', score: 85 },
+        { _id: '2', score: 92 },
+      ];
       req.user = { userId: 'user123' };
 
       Results.find = jest.fn().mockResolvedValue(mockResults);
@@ -156,7 +162,7 @@ describe('ResultsController - Tests Complets', () => {
       expect(res.json).toHaveBeenCalledWith(mockResults);
     });
 
-    test('devrait retourner les résultats d\'un utilisateur avec req.user.id', async () => {
+    test("devrait retourner les résultats d'un utilisateur avec req.user.id", async () => {
       const mockResults = [{ _id: '1', score: 85 }];
       req.user = { id: 'user123' };
 
@@ -168,7 +174,7 @@ describe('ResultsController - Tests Complets', () => {
       expect(res.json).toHaveBeenCalledWith(mockResults);
     });
 
-    test('devrait retourner les résultats d\'un utilisateur avec req.user._id', async () => {
+    test("devrait retourner les résultats d'un utilisateur avec req.user._id", async () => {
       const mockResults = [{ _id: '1', score: 85 }];
       req.user = { _id: 'user123' };
 
@@ -180,7 +186,7 @@ describe('ResultsController - Tests Complets', () => {
       expect(res.json).toHaveBeenCalledWith(mockResults);
     });
 
-    test('devrait retourner les résultats d\'un utilisateur avec req.params.userId', async () => {
+    test("devrait retourner les résultats d'un utilisateur avec req.params.userId", async () => {
       const mockResults = [{ _id: '1', score: 85 }];
       req.params = { userId: 'user123' };
 
@@ -203,7 +209,7 @@ describe('ResultsController - Tests Complets', () => {
       expect(next).toHaveBeenCalledWith(error);
     });
 
-    test('devrait gérer le cas où aucun userId n\'est fourni', async () => {
+    test("devrait gérer le cas où aucun userId n'est fourni", async () => {
       const mockResults = [];
       req.user = {};
       req.params = {};

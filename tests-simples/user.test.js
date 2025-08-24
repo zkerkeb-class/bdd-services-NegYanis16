@@ -81,7 +81,7 @@ describe('Modèle User - Tests Simples', () => {
           email: 'test@example.com',
           password: 'password123',
           niveau: 'lycée',
-          classe: '1ère'
+          classe: '1ère',
         });
 
         expect(typeof user.isProfileComplete).toBe('function');
@@ -94,7 +94,7 @@ describe('Modèle User - Tests Simples', () => {
           email: 'test@example.com',
           niveau: 'lycée',
           classe: '1ère',
-          authProvider: 'invalid'
+          authProvider: 'invalid',
         });
 
         expect(user.isProfileComplete()).toBe(false);
@@ -108,7 +108,7 @@ describe('Modèle User - Tests Simples', () => {
           prenom: 'User',
           email: 'test@example.com',
           googleId: 'google123',
-          authProvider: 'google'
+          authProvider: 'google',
         });
 
         const result = await user.comparePassword('anypassword');
@@ -125,7 +125,7 @@ describe('Modèle User - Tests Simples', () => {
           prenom: 'User',
           email: 'test@example.com',
           password: 'hashedpassword',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         const result = await user.comparePassword('password123');
@@ -139,7 +139,7 @@ describe('Modèle User - Tests Simples', () => {
         const user = new User({
           email: 'test@example.com',
           password: 'password123',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         expect(typeof user.canUsePassword).toBe('function');
@@ -149,7 +149,7 @@ describe('Modèle User - Tests Simples', () => {
         const user = new User({
           email: 'test@example.com',
           googleId: 'google123',
-          authProvider: 'google'
+          authProvider: 'google',
         });
 
         expect(user.canUsePassword()).toBe(false);
@@ -161,7 +161,7 @@ describe('Modèle User - Tests Simples', () => {
         const user = new User({
           email: 'test@example.com',
           googleId: 'google123',
-          authProvider: 'google'
+          authProvider: 'google',
         });
 
         expect(typeof user.canUseGoogle).toBe('function');
@@ -171,7 +171,7 @@ describe('Modèle User - Tests Simples', () => {
         const user = new User({
           email: 'test@example.com',
           password: 'password123',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         expect(user.canUseGoogle()).toBe(false);
@@ -182,16 +182,16 @@ describe('Modèle User - Tests Simples', () => {
       test('devrait fusionner avec profil Google complet', () => {
         const user = new User({
           email: 'test@example.com',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         const googleProfile = {
           id: 'google123',
           name: {
             familyName: 'Dupont',
-            givenName: 'Jean'
+            givenName: 'Jean',
           },
-          photos: [{ value: 'https://avatar.url' }]
+          photos: [{ value: 'https://avatar.url' }],
         };
 
         user.mergeWithGoogle(googleProfile);
@@ -206,15 +206,15 @@ describe('Modèle User - Tests Simples', () => {
       test('devrait fusionner avec profil Google sans photos', () => {
         const user = new User({
           email: 'test@example.com',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         const googleProfile = {
           id: 'google123',
           name: {
             familyName: 'Dupont',
-            givenName: 'Jean'
-          }
+            givenName: 'Jean',
+          },
         };
 
         user.mergeWithGoogle(googleProfile);
@@ -229,15 +229,15 @@ describe('Modèle User - Tests Simples', () => {
           nom: 'ExistingNom',
           prenom: 'ExistingPrenom',
           email: 'test@example.com',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         const googleProfile = {
           id: 'google123',
           name: {
             familyName: 'Dupont',
-            givenName: 'Jean'
-          }
+            givenName: 'Jean',
+          },
         };
 
         user.mergeWithGoogle(googleProfile);
@@ -249,11 +249,11 @@ describe('Modèle User - Tests Simples', () => {
       test('devrait fusionner avec profil Google sans noms', () => {
         const user = new User({
           email: 'test@example.com',
-          authProvider: 'local'
+          authProvider: 'local',
         });
 
         const googleProfile = {
-          id: 'google123'
+          id: 'google123',
         };
 
         user.mergeWithGoogle(googleProfile);
