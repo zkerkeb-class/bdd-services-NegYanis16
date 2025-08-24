@@ -129,12 +129,41 @@ tests-simples/
 # Tous les tests
 npm test
 
-# Tests en mode watch
-npx jest --watch
+# Tests avec rapport de couverture
+npm run test:coverage
 
-# Tests avec couverture
-npx jest --coverage
+# Tests en mode watch
+npm run test:watch
+
+# Tests en mode watch avec couverture
+npm run test:watch:coverage
+
+# Générer et ouvrir le rapport de couverture
+npm run coverage:report
 ```
+
+### Couverture de code (Coverage)
+
+Le projet est configuré avec des seuils de couverture minimums :
+
+- **Branches** : 70%
+- **Fonctions** : 70%
+- **Lignes** : 70%
+- **Instructions** : 70%
+
+Les rapports de couverture sont générés dans le dossier `coverage/` :
+
+- **HTML** : `coverage/lcov-report/index.html`
+- **LCOV** : `coverage/lcov.info`
+- **JSON** : `coverage/coverage-final.json`
+- **Texte** : Affiché dans la console
+
+### Fichiers exclus du coverage
+
+- `src/index.js` (point d'entrée)
+- `tests-simples/**` (fichiers de tests)
+- `node_modules/**`
+- `coverage/**`
 
 ## 🔒 Sécurité
 
