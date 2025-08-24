@@ -11,6 +11,7 @@ app.use(cors(
   "https://service-ia-staging-avcv.onrender.com",
   "https://payment-services-staging.onrender.com",
   "https://front-neg-yanis16-bxt5.vercel.app",
+  "http://localhost:3000"
 ));
 app.use(express.json());
 
